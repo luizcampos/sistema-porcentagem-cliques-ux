@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pernod Ricard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <style type="text/css">        
+        body {
+            text-align: center;
+            background-color: #141414;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 2rem 0;
+        }
+
+        .btn {
+            background-color: rgb(202, 202, 202);
+            color: #141414;
+            padding: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-green {
+            background-color: #16bd8b;
+        }
+
+        .btn-red {
+            background-color: #e45169;
+        }
+
+        .btn:hover {
+            background-color: rgb(146, 146, 146);
+        }
+
+        .box-text {
+            padding: 10px;
+        }
+
+        .box-number {
+            padding: 10px;
+            width: 120px;
+        }
+
+        .box-historic {
+            margin: 20px;
+        }
+
+        .atalhos {
+            padding: 1rem 0;
+            display: flex;
+            justify-content: space-between;
+            width: 40%;
+            margin: 0 auto;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .text-gray {
+            color: #777777;
+        }
+
+        .box-resul {
+            padding: 2rem;
+            background-color: #202020;
+            width: fit-content;
+            display: none;
+            margin: 0 auto;
+        }
+    </style>
+
+    <section>
+        <div>
+            <input id="nome" type="text" class="box-text" placeholder="Nome do componente" required>
+            <input id="numCliques" type="number" class="box-number" placeholder="Total de cliques" required>
+            <a onclick="adicionar()" class="btn btn-green">Adicionar</a>
+            <a onclick="limpar()" class="btn btn-red">Limpar</a>
+            <a onclick="calcular()" class="btn">Calcular</a>
+        </div>
+        <div class="atalhos">
+            <a onclick="agilizarTexto('Logo Header')">Logo Header</a>
+            <a onclick="agilizarTexto('Banner')" class="text-gray">Banner</a>
+            <a onclick="agilizarTexto('CTA')">CTA</a>
+            <a onclick="agilizarTexto('Gostei')" class="text-gray">Gostei</a>
+            <a onclick="agilizarTexto('Não gostei')">Não gostei</a>
+            <a onclick="agilizarTexto('Logo Footer')" class="text-gray">Logo Footer</a>
+            <a onclick="agilizarTexto('Footer Pernod')">Footer Pernod</a>
+        </div>
+        <br>
+        <div class="box-historic">
+            <span id="lista"></span>
+        </div>
+        <div class="box-resul">
+            <span id="resul"></span>
+        </div>
+    </section>
+
+    <script>
+        
+        var somaCliques = 0;
+        var arrayNomes =[], arrayNum=[];
+
+        function adicionar() {
+            var componente = document.querySelector('#nome').value;
+            var num = document.querySelector('#numCliques').value;
+            somaCliques += parseInt(num);
+            arrayNomes.push(componente);
+            arrayNum.push(num);
+
+
+            if (componente != "") 
+                document.getElementById('lista').innerHTML += `${componente} - ${num}<br/>`;
+        }
+
+        function limpar(){
+            document.getElementById('lista').innerHTML = "";
+            document.getElementById('resul').innerHTML = "";
+            somaCliques = 0;
+            arrayNomes =[];
+            arrayNum=[];
+            document.querySelector('.box-resul').style.display = "none"
+        }
+
+        function calcular(){
+            var valores = document.getElementById('lista').value;
+            if (valores !== null){
+                document.getElementById('resul').innerHTML = "<strong>RESULTADO</strong><br/><br/>"
+                document.querySelector('.box-resul').style.display = "block"
+
+                for (i = 0; i < arrayNomes.length; i++){
+                    document.getElementById('resul').innerHTML += `${arrayNomes[i]} - ${((arrayNum[i]*100)/somaCliques).toFixed(2)}%<br/>`;
+                }
+            }
+        }
+
+        function agilizarTexto(valor){
+            var inputName = document.querySelector('#nome')
+            var inputNum = document.querySelector('#numCliques')
+            inputNum.value = "";
+            inputName.value = "";
+            inputName.value = valor + " ";
+            if (valor == "CTA"){
+                document.querySelector('#nome').focus()
+            } else {
+                document.querySelector('#numCliques').focus()
+            }
+        }
+
+        document.addEventListener('keypress', function(e){
+            if(e.which == 13){
+                adicionar()
+            }
+        }, false);
+    </script>
+</body>
+</html>
